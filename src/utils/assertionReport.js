@@ -43,6 +43,17 @@ const createAssertionRows = (assertions) => assertions.map((assertion) => ({
 }));
 
 /**
+ * Builds a compact failure message for report rows that do not match.
+ *
+ * @param {Array<{ assertion: string, expected: string, actual: string, status: string }>} rows - Report rows.
+ * @returns {string} Failure details used to fail the current Jest test.
+ */
+const createMismatchMessage = (rows) => rows
+  .filter((row) => row.status === 'FAIL')
+  .map((row) => `${row.assertion}: expected ${row.expected}, actual ${row.actual}`)
+  .join('\n');
+
+/**
  * Formats assertion rows as a Markdown-style table for `jest-html-reporters`.
  *
  * @param {Array<{ assertion: string, expected: string, actual: string, status: string }>} rows - Report rows.
@@ -64,9 +75,10 @@ const toMarkdownTable = (rows) => {
  * @param {object} params - Report payload.
  * @param {string} params.title - Section title shown in the test's expanded Info view.
  * @param {Array<{ assertion: string, expected: *, actual: * }>} params.assertions - Assertion rows to display.
- * @returns {Promise<void>} Resolves after the report message is written.
+ * @param {boolean} [params.failOnMismatch=true] - Fails the Jest test when any report row mismatches.
+ * @returns {Promise<void>} Resolves after the report message is written and checked.
  */
-const addAssertionReport = async ({ title, assertions }) => {
+const addAssertionReport = async ({ title, assertions, failOnMismatch = true }) => {
   const rows = createAssertionRows(assertions);
 
   await addMsg({
@@ -76,6 +88,12 @@ const addAssertionReport = async ({ title, assertions }) => {
       toMarkdownTable(rows)
     ].join('\n')
   });
+
+  const mismatchMessage = createMismatchMessage(rows);
+
+  if (failOnMismatch && mismatchMessage) {
+    throw new Error(`Assertion report mismatch:\n${mismatchMessage}`);
+  }
 };
 
 module.exports = {

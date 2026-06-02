@@ -67,6 +67,8 @@ The report is based on the Jest assertions in the test files. Passed tests appea
 
 The parameterized Pokemon detail tests also attach assertion-level expected and actual values to the expanded report view. For example, the expanded report entry for Pikachu includes rows for `id`, `types`, `abilities`, `height`, `weight`, `stats`, and default sprite URL.
 
+The current suite documents 8 logical API scenarios and expands to 12 Jest tests at runtime because valid Pokemon lookups and invalid resource checks are parameterized.
+
 After a successful Jest run, `scripts/normalizeReportStatus.js` normalizes the generated report metadata so the report data matches the visible pass/fail result.
 
 ## Configuration
@@ -88,6 +90,7 @@ Numeric configuration values are validated at startup. Invalid timeout, retry co
 ```text
 artifacts/
   framework-architecture.svg
+  demo.gif
   Sporty API Automation Test Report sample.pdf
 src/
   schemas/
@@ -130,7 +133,7 @@ artifacts/Sporty API Automation Test Report sample.pdf
 | API-005 | Validate paginated Pokemon list response schema | `GET /pokemon?limit=5&offset=0` | Pokemon list response follows the expected pagination contract | AJV JSON schema validation for `count`, `next`, `previous`, and `results` named resources |
 | API-006 | Get Pokemon type details | `GET /type/electric` | Electric type details are returned and include Pikachu in the linked Pokemon list | HTTP status, exact value assertion, object assertion, non-empty array assertion, and array membership assertion |
 | API-007 | Validate Pokemon type response schema | `GET /type/electric` | Pokemon type response follows the expected API contract | AJV JSON schema validation for type identity, damage relation arrays, and linked Pokemon resources |
-| API-008 | Request invalid Pokemon | `GET /pokemon/not-a-real-pokemon-qa` | API rejects an unknown Pokemon with `404` | Negative status assertion and unsuccessful response assertion |
+| API-008 | Request invalid resources using parameterized data | `GET /pokemon/not-a-real-pokemon-qa`, `GET /pokemon/0`, `GET /type/not-a-real-type-qa` | API rejects unknown or invalid resources with `404` and `Not Found` response body | Negative status assertion, unsuccessful response assertion, plain text content-type assertion, and response body assertion |
 
 ## Validation Used and Why
 
@@ -142,8 +145,8 @@ artifacts/Sporty API Automation Test Report sample.pdf
 | Array and nested object validation | Abilities, types, stats, moves, forms, species, pagination results, and linked Pokemon | Confirms important nested response structures are present and populated correctly |
 | URL and URI validation | Sprite URLs, resource URLs, pagination links, and schema checks | Confirms returned links are correctly formatted and usable by API consumers |
 | JSON schema validation with AJV | Pokemon detail, Pokemon list, and Pokemon type responses | Confirms the response contract has the expected required fields, data types, nested structure, and minimum array sizes |
-| Negative validation | Invalid Pokemon lookup | Confirms the API handles invalid input correctly and does not return a false positive success response |
-| Parameterized validation with `test.each` | Valid Pokemon lookup test | Reduces duplicated code while validating multiple Pokemon records with the same behavior and different expected data |
+| Negative validation | Invalid Pokemon name, invalid Pokemon ID, and invalid Pokemon type lookup | Confirms the API handles invalid input correctly and does not return a false positive success response |
+| Parameterized validation with `test.each` | Valid Pokemon lookup test and invalid resource lookup test | Reduces duplicated code while validating multiple records or invalid resources with the same behavior and different expected data |
 
 These validations cover transport-level behavior, business-level correctness, and response contract stability. This combination helps catch cases where an endpoint returns `200` but the response body is incomplete, incorrectly typed, missing required fields, or semantically wrong.
 
@@ -151,8 +154,6 @@ The parameterized test names include the key details being validated, so the HTM
 
 ## Local Test Run GIF
 
-Add the required assignment GIF here after recording a local test run:
+The local test execution demo is available at:
 
-```md
-![Local Jest API test run](docs/test-run.gif)
-```
+![Local Jest API test run](artifacts/demo.gif)

@@ -33,6 +33,28 @@ const expectSuccessfulJsonResponse = (response) => {
   expect(response.data).toEqual(expect.any(Object));
 };
 
+const expectNotFoundTextResponse = (response) => {
+  expect(response.status).toBe(404);
+  expect(response.ok).toBe(false);
+  expect(response.headers.get('content-type') || '').toContain('text/plain');
+  expect(response.data).toBe('Not Found');
+};
+
+const invalidResourceTestCases = [
+  {
+    path: '/pokemon/not-a-real-pokemon-qa',
+    description: 'an invalid Pokemon name'
+  },
+  {
+    path: '/pokemon/0',
+    description: 'an invalid Pokemon id'
+  },
+  {
+    path: '/type/not-a-real-type-qa',
+    description: 'an invalid Pokemon type'
+  }
+];
+
 describe('PokeAPI automated API tests', () => {
   test.each(pokemonTestCases)(
     'GET /pokemon/$name returns $displayDetails',
@@ -258,18 +280,22 @@ describe('PokeAPI automated API tests', () => {
     expect(isValidSchema).toBe(true);
   });
 
-  test('GET /pokemon with an invalid name returns 404', async () => {
-    const response = await apiClient.get('/pokemon/not-a-real-pokemon-qa');
+  test.each(invalidResourceTestCases)(
+    'GET $path returns 404 for $description',
+    async ({ path, description }) => {
+      const response = await apiClient.get(path);
 
-    await addAssertionReport({
-      title: 'Assertion-level details for invalid Pokemon lookup',
-      assertions: [
-        { assertion: 'HTTP status should be 404', expected: 404, actual: response.status },
-        { assertion: 'Response should not be successful', expected: false, actual: response.ok }
-      ]
-    });
+      await addAssertionReport({
+        title: `Assertion-level details for ${description}`,
+        assertions: [
+          { assertion: 'HTTP status should be 404', expected: 404, actual: response.status },
+          { assertion: 'Response should not be successful', expected: false, actual: response.ok },
+          { assertion: 'Content type should be plain text', expected: true, actual: (response.headers.get('content-type') || '').includes('text/plain') },
+          { assertion: 'Response body should say Not Found', expected: 'Not Found', actual: response.data }
+        ]
+      });
 
-    expect(response.status).toBe(404);
-    expect(response.ok).toBe(false);
-  });
+      expectNotFoundTextResponse(response);
+    }
+  );
 });
