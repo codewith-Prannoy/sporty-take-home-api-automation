@@ -1,0 +1,120 @@
+<svg width="1200" height="760" viewBox="0 0 1200 760" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">API automation framework architecture</title>
+  <desc id="desc">Architecture diagram showing Jest tests, environment configuration, logger, JSON test data, API client, schema validation, PokeAPI, and HTML reporting flow.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="strokeWidth">
+      <path d="M2 2 L10 6 L2 10 Z" fill="#233041"/>
+    </marker>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#0f172a" flood-opacity="0.14"/>
+    </filter>
+    <style>
+      .bg { fill: #f7f8fb; }
+      .title { font: 700 32px Arial, sans-serif; fill: #111827; }
+      .subtitle { font: 400 16px Arial, sans-serif; fill: #4b5563; }
+      .section-title { font: 700 18px Arial, sans-serif; fill: #111827; }
+      .box-title { font: 700 16px Arial, sans-serif; fill: #111827; }
+      .box-text { font: 400 13px Arial, sans-serif; fill: #374151; }
+      .small { font: 400 12px Arial, sans-serif; fill: #4b5563; }
+      .pill { font: 700 12px Arial, sans-serif; fill: #ffffff; }
+      .box { stroke-width: 2; filter: url(#shadow); }
+      .execution { fill: #bfdbfe; stroke: #3b82f6; }
+      .specs { fill: #bbf7d0; stroke: #22c55e; }
+      .data { fill: #fed7aa; stroke: #f97316; }
+      .client { fill: #ddd6fe; stroke: #8b5cf6; }
+      .schema { fill: #c7d2fe; stroke: #6366f1; }
+      .api { fill: #fecaca; stroke: #ef4444; }
+      .details { fill: #99f6e4; stroke: #14b8a6; }
+      .report { fill: #fde68a; stroke: #eab308; }
+      .config { fill: #e9d5ff; stroke: #a855f7; }
+      .lane { fill: #ffffff; stroke: #e5e7eb; stroke-width: 1.5; }
+      .arrow { stroke: #233041; stroke-width: 2; marker-end: url(#arrow); }
+      .arrow-soft { stroke: #64748b; stroke-width: 2; stroke-dasharray: 7 6; marker-end: url(#arrow); }
+    </style>
+  </defs>
+
+  <rect class="bg" width="1200" height="760"/>
+  <text x="60" y="60" class="title">API Automation Framework Architecture</text>
+  <text x="60" y="88" class="subtitle">JavaScript + Jest framework with environment config, logging, API validation, schema checks, and static HTML reporting.</text>
+
+  <rect x="50" y="120" width="1100" height="560" rx="14" class="lane"/>
+  <text x="80" y="155" class="section-title">Framework Flow</text>
+
+  <rect x="80" y="205" width="210" height="110" rx="10" class="box execution"/>
+  <text x="105" y="238" class="box-title">Test Runner</text>
+  <text x="105" y="264" class="box-text">Jest executes API tests</text>
+  <text x="105" y="286" class="box-text">npm test / test:report</text>
+
+  <rect x="80" y="385" width="210" height="110" rx="10" class="box specs"/>
+  <text x="105" y="418" class="box-title">Test Specs</text>
+  <text x="105" y="444" class="box-text">tests/pokemon.api.test.js</text>
+  <text x="105" y="466" class="box-text">Assertions and scenarios</text>
+
+  <rect x="340" y="185" width="220" height="110" rx="10" class="box data"/>
+  <text x="365" y="218" class="box-title">Test Data</text>
+  <text x="365" y="244" class="box-text">test-data/*.json</text>
+  <text x="365" y="266" class="box-text">Parameterized cases</text>
+
+  <rect x="340" y="365" width="220" height="110" rx="10" class="box config"/>
+  <text x="365" y="398" class="box-title">Environment + Logs</text>
+  <text x="365" y="424" class="box-text">.env / .env.example</text>
+  <text x="365" y="446" class="box-text">src/utils/config + logger</text>
+
+  <rect x="610" y="185" width="220" height="110" rx="10" class="box client"/>
+  <text x="635" y="218" class="box-title">API Client</text>
+  <text x="635" y="244" class="box-text">src/utils/apiClient.js</text>
+  <text x="635" y="266" class="box-text">Timeout, retry, request logs</text>
+
+  <rect x="610" y="365" width="220" height="110" rx="10" class="box schema"/>
+  <text x="635" y="398" class="box-title">Schema Validation</text>
+  <text x="635" y="424" class="box-text">AJV + ajv-formats</text>
+  <text x="635" y="446" class="box-text">src/schemas/*.js</text>
+
+  <rect x="910" y="185" width="190" height="110" rx="10" class="box api"/>
+  <text x="935" y="218" class="box-title">Public API</text>
+  <text x="935" y="244" class="box-text">PokeAPI</text>
+  <text x="935" y="266" class="box-text">pokeapi.co/api/v2</text>
+
+  <rect x="910" y="365" width="190" height="110" rx="10" class="box details"/>
+  <text x="935" y="398" class="box-title">Assertion Details</text>
+  <text x="935" y="424" class="box-text">Expected vs actual rows</text>
+  <text x="935" y="446" class="box-text">src/utils/assertionReport</text>
+
+  <rect x="610" y="545" width="220" height="90" rx="10" class="box report"/>
+  <text x="635" y="578" class="box-title">Static Report</text>
+  <text x="635" y="604" class="box-text">jest-html-reporters</text>
+  <text x="635" y="626" class="box-text">normalized report metadata</text>
+
+  <line x1="185" y1="315" x2="185" y2="378" class="arrow"/>
+  <line x1="290" y1="440" x2="332" y2="440" class="arrow"/>
+  <line x1="450" y1="295" x2="450" y2="358" class="arrow-soft"/>
+  <line x1="560" y1="240" x2="602" y2="240" class="arrow"/>
+  <line x1="560" y1="420" x2="602" y2="420" class="arrow-soft"/>
+  <line x1="720" y1="295" x2="720" y2="358" class="arrow-soft"/>
+  <line x1="830" y1="240" x2="902" y2="240" class="arrow"/>
+  <line x1="830" y1="420" x2="902" y2="420" class="arrow-soft"/>
+  <line x1="1005" y1="365" x2="1005" y2="302" class="arrow-soft"/>
+  <line x1="910" y1="420" x2="838" y2="590" class="arrow"/>
+  <line x1="720" y1="475" x2="720" y2="538" class="arrow-soft"/>
+
+  <rect x="82" y="655" width="104" height="28" rx="14" fill="#3b82f6"/>
+  <text x="100" y="674" class="pill">Execution</text>
+  <rect x="202" y="655" width="104" height="28" rx="14" fill="#22c55e"/>
+  <text x="230" y="674" class="pill">Tests</text>
+  <rect x="322" y="655" width="104" height="28" rx="14" fill="#f97316"/>
+  <text x="344" y="674" class="pill">Data</text>
+  <rect x="442" y="655" width="104" height="28" rx="14" fill="#a855f7"/>
+  <text x="456" y="674" class="pill">Config</text>
+  <rect x="562" y="655" width="104" height="28" rx="14" fill="#8b5cf6"/>
+  <text x="580" y="674" class="pill">Client</text>
+  <rect x="682" y="655" width="104" height="28" rx="14" fill="#6366f1"/>
+  <text x="694" y="674" class="pill">Schema</text>
+  <rect x="802" y="655" width="104" height="28" rx="14" fill="#ef4444"/>
+  <text x="834" y="674" class="pill">API</text>
+  <rect x="922" y="655" width="104" height="28" rx="14" fill="#14b8a6"/>
+  <text x="944" y="674" class="pill">Details</text>
+  <rect x="1042" y="655" width="104" height="28" rx="14" fill="#eab308"/>
+  <text x="1064" y="674" class="pill">Report</text>
+
+  <text x="80" y="720" class="small">Flow: npm starts Jest, tests load JSON data and environment config, the API client calls PokeAPI with retry/timeout logging, responses are validated with Jest assertions and AJV schemas, assertion details are attached, and report metadata is normalized.</text>
+</svg>
