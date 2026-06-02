@@ -17,7 +17,21 @@ This project uses [PokeAPI](https://pokeapi.co/), a public API listed in the `pu
 npm install
 ```
 
-Create a local `.env` file from the example values if one is not already present:
+Create a local `.env` file from the example values if one is not already present.
+
+Windows PowerShell:
+
+```powershell
+Copy-Item .env.example .env
+```
+
+Windows Command Prompt:
+
+```bat
+copy .env.example .env
+```
+
+macOS/Linux:
 
 ```bash
 cp .env.example .env
